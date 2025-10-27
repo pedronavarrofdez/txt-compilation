@@ -11,7 +11,11 @@ __NetStat:__ [*Comandos básicos*](/docs/netstat.md)
 __Linux:__  
 __Powershell:__  
 __SQL:__  
-
+.  
+.  
+.  
+  
+  
 <br />
 
 *👋 
