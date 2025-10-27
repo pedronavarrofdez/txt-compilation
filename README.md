@@ -6,11 +6,11 @@ Explicaciones básicas del uso de distintas herramientas del sector paso a paso.
 <br />
 
 ### Enlaces
-__NMAP:__ [*Comandos básicos*](/docs/nmap.md)  
-__NetStat:__ [*Comandos básicos*](/docs/netstat.md)  
-__Linux:__  
-__Powershell:__  
-__SQL:__  
+- __NMAP:__ [*Comandos básicos*](/docs/nmap.md)  
+- __NetStat:__ [*Comandos básicos*](/docs/netstat.md)  
+- __Linux:__  
+- __Powershell:__  
+- __SQL:__  
 .  
 .  
 .  
