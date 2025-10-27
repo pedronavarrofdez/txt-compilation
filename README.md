@@ -5,7 +5,7 @@ Explicaciones básicas del uso de distintas herramientas del sector paso a paso.
 ## (づ￣ ³￣)づ
 
 ### Enlaces
-__NMAP:__ [*Comandos básicos*](/nmap.md)  
+__NMAP:__ [*Comandos básicos*](/docs/nmap.md)  
 __NetStat:__ [*Comandos básicos*](/docs/netstat.md)
 
 *👋 
