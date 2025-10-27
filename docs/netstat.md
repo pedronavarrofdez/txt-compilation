@@ -70,19 +70,32 @@ Por eso, las entradas más específicas se colocan generalmente en la parte supe
 `netstat -an | find “80”`  
 
 - Para filtrar por estado de conexión _(por ejemplo, conexiones ESTABLISHED)_  
-`netstat -an | find “ESTABLISHED”`
-</br>
+`netstat -an | find “ESTABLISHED”`  
+</br>  
 
-# Otros comandos
+## Otros__ (╬ ಠ益ಠ)
+### Ping
+- Hacer ping a un dominio IP:  
+`Ping example.com`
+- Enviar una cantidad específica de pings <sub>(por ejemplo, 4 pings)</sub>  
+`Ping -n 4 example.com`
+- Hacer ping continuamente hasta que se detenga manualmente  
+`Ping -t example.com`  
+</br>  
 
-## Ping
+### Traceroute
+Muestra la ruta que los paquetes toman para llegar desde tu _máquina_ hasta el _host_ destino.  
+Util para identificar dónde se pueden estar produciendo retrasos o problemas de conectividad.
+- Traceroute a un dominio o ip  
+`Tracert example.com`
+- Especificar un número máximo de saltos (hops):  
+`Tracert -h 5 google.es`
 
-## Traceroute
+### Recomendaciones / Advertencias sistemas
+- ___Monitoreo Continuo:___ Usa `ping` regularmente para monitorear salud y disponibilidad de servidores y/o dispositivos críticos.
+- ___Diagnóstico de Rutas:___ Utiliza `traceroute` para diagnosticar problemas de ruta o latencia. Si detectas un número inusual de saltos o tiempos de respuesta anormalmente altos, puede significar un problema
+- ___Conciencia de la Herramienta:___ Recuerda que tanto `ping` como `traceroute` pueden ser detectados por sistemas de detección de intrusiones. No los uses indiscriminadamente en redes que no te pertenecen o en las que no tienes permiso para hacerlo, ya que podría ser considerado como un intento de escaneo o ataque.  
 
+<br/>  
 
-
-
-
-
-<br/>
 *👋
