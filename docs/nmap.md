@@ -1,12 +1,12 @@
 # NMAP__ (ง'̀-'́)ง
-### Intro
+## Intro
 Nmap (Network Mapper) es una herramienta de código abierto utilizada para la exploración de redes y la auditoría de seguridad.
 Permite descubrir dispositivos que funcionan en una red y detectar puertos abiertos junto con varios atributos de la red.  
 - Descarga: [/nmap.org/download](https://nmap.org/download.html)
 
 --- 
 
-### Comandos muy básicos
+### Comandos básicos
 - __Escaneo normal:__ escaneo de los 1.000 puertos más comunes del objetivo. Respuesta: puertos y sus estados, *open* (abierto), *closed* (cerrado), o *filtered* (filtrado).  
 `nmap [dirección IP o nombre de dominio]`
 
