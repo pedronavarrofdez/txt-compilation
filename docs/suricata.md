@@ -16,6 +16,8 @@ Rules = signatures
 - **Alertas:** `fast.log` __->__ `/var/log/suricata`  
 - **Main log:** `eve.json`__->__ `/var/log/suricata`
 
+---
+
 ## Custom.rules
 - `cat custom.rules`  
 ```
@@ -24,7 +26,7 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"GET on wire"; flow:establish
 
 Las reglas estan formadas por tres componentes: **`action`**, **`header`** y **`rule options`**.  
 
-### action
+### Action
 Determina la acciona a realizar si se cumplen todas las condiciones.  
 Las más comunes son `alert`, `drop`, `pass` y `reject`.  
 
@@ -40,7 +42,7 @@ Por ejemplo, la siguiente regla tiene una firma idéntica al ejemplo anterior, e
 pass http 172.17.0.77 any -> $EXTERNAL_NET any (msg:"BAD USER-AGENT";flow:established,to_server;content:!”Mozilla/5.0”; http_user_agent; sid: 12365; rev:1;)
 ```
   
-### header
+### Header
 ``` 
 http $HOME_NET any -> $EXTERNAL_NET any
 ```  
@@ -50,19 +52,43 @@ La cabecera define el _signature’s network traffic_, e incluye atributos como 
 - Parametros del protocolo: `$HOME_NET any -> $EXTERNAL_NET any` donde `->` indica la direccion del tráfico de `$HOME_NET` a `$EXTERNAL_NET`.  
 - ANY: indica que Suricata captura el tráfico de cualquier puerto definido en la red `$HOME_NET`.  
 
-### rule options
+### Rule options
 ```
 (msg:"GET on wire"; flow:established,to_server; content:"GET"; http_method; sid:12345; rev:3;)
 ```  
 
 Ayudan a filtrar el tráfico de red para encontrar exactamente lo que se busca.
-Las opciones de reglas van entre paréntesis y separadas por `;`.
+Las opciones de reglas van entre paréntesis y separadas por `;`.  
+- **`msg:"GET on wire`:** _Texto de alerta_. `msg:` imprime `“GET on wire”` especificando porque salta la alerta.  
+- **`flow:established,to_server`:** determina que los paquetes del cliente al servidor deben coincidir.  
+(En este caso, el servidor se define como el dispositivo que responde al paquete _SYN_ inicial con un paquete _SYN-ACK_).  
+- **`content:"GET"`:** indica a Suricata que busque la palabra GET en el contenido de la parte http.method del paquete.  
+- **`sid:12345`:** es un valor numérico único que identifica la regla.  
+- **`rev:3`:** indica la revisión de la firma, que se utiliza para identificar su versión. En este caso, la versión de revisión es la 3.  
+
+---
+
+##
 
 
+---
 
+## Eve.json
+- `cat /var/log/suricata/eve.json` mucho texto, para mejorarlo:
+- `jq . /var/log/suricata/eve.json | less`
+usar las letras **f** y **b** para moverse por el output, **CTRL+C** para parar el proceso, **Q** para salir de `less`
 
+### Ejemplos
+- `jq -c "[.timestamp,.flow_id,.alert.signature,.proto,.dest_ip]" /var/log/suricata/eve.json`  
+Saca los datos .timestamp, flow_id, alert.signature, etc  
+> output
+```
+["2022-11-23T12:38:34.624866+0000",14500150016149,"GET on wire","TCP","142.250.1.139"]
+["2022-11-23T12:38:58.958203+0000",1647223379236084,"GET on wire","TCP","142.250.1.102"]
+```  
+  
+- `jq "select(.flow_id==X)" /var/log/suricata/eve.json`  
+Sustituyendo X por cualquiera de los valores del output anterior, saca todos los event.logs relativos a un flow_id especifico.
 
-
-
-
-
+</br>
+*👋
