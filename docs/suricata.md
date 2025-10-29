@@ -68,8 +68,23 @@ Las opciones de reglas van entre paréntesis y separadas por `;`.
 
 ---
 
-##
+## Activar una regla personalizada
+- Ejecutar `suricata` usando the `custom.rules` y un archivo de red `sample.pcap`:  
+`sudo suricata -r sample.pcap -S custom.rules -k none`  
+  - `-r sample.pcap` especifica un archivo de entrada para simular el _tráfico de red_. En este caso, el archivo `sample.pcap`.  
+  - `-S custom.rules`: indica a Suricata que utilice las reglas definidas en el archivo `custom.rules`.  
+  - `-k none`: indica a Suricata que deshabilite todos los `checksum checks`_ (disable all checksum checks)_.  
 
+Suricata añade una nueva línea de alerta al archivo `/var/log/suricata/fast.log` cuando se cumplen todas las condiciones de cualquiera de las reglas.  
+
+- `cat /var/log/suricata/fast.log`
+> output
+```
+11/23/2022-12:38:34.624866  [**] [1:12345:3] GET on wire [**] [Classification: (null)] [Priority: 3] {TCP} 172.21.224.2:49652 -> 142.250.1.139:80
+11/23/2022-12:38:58.958203  [**] [1:12345:3] GET on wire [**] [Classification: (null)] [Priority: 3] {TCP} 172.21.224.2:58494 -> 142.250.1.139:80
+```  
+
+Cada línea del archivo `fast.log` corresponde a una alerta generada por Suricata al procesar un paquete que cumple las condiciones de generación de alertas. Cada línea de alerta incluye el mensaje que identifica la regla que la activó, así como el origen, el destino y la dirección del tráfico.
 
 ---
 
