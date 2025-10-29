@@ -1,5 +1,5 @@
 # TCP DUMP - EJERCICIO nº1
-## Objetivo
+## Objetivo__  ᕙ(⇀‸↼‶)ᕗ 
 Uso de `tcpdump` para identificar, fltrar y capturar el tráfico de red.  
 Data in a packet capture (p-cap) file and then examine the contents of the captured packet data to focus on specific types of traffic.  
 
@@ -90,7 +90,7 @@ Anteriormente, en __1.__ y __2.__ uso `tcpdump` para capturar todo el tráfico d
 - Captura los _packet data_ en un archivo llamado `capture.pcap`:  
 `sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &`  
          - __`-i eth0`__: Captura data desde la interfaz `eth0`  
-         - __`-nn`__: No intenta resolver ni direcciones IP ni puertos ni nombres. <sub>Es una buena practica desde el punto de vista de seguridad, ya que los datos de búsqueda podrían no ser válidos. Además, prevents malicious actors from being alerted to an investigation. </sub>  
+         - __`-nn`__: No intenta resolver ni direcciones IP ni puertos ni nombres. <sup>Es una buena practica desde el punto de vista de seguridad, ya que los datos de búsqueda podrían no ser válidos. Además, prevents malicious actors from being alerted to an investigation. </sup>  
          - __`-c9`__: Captura 9 paquetes de datos y `exit`.  
          - __`port 80`__: Filtra solo tráfico del puerto 80 _(default HTTP port)_.
          - __`-w capture.pcap`__: Guarda los datos capturados en > capture.pcap.  
@@ -109,15 +109,34 @@ ls -l capture.pcap
 ```
 
 ### 4. Filtrado de datos del paquete capturado
+Filtrado de datos del paquete guardado previamente como `capture.pcap`.  
+- Comando ___tcpdump___ de filtrado:  
+`sudo tcpdump -nn -r capture.pcap -v`  
+        - __`-nn`__: Deshabilitar la búsqueda de nombres de puerto y protocolo.  
+        - __`-r`__: Leer datos de captura del archivo especificado.  
+        - __`-v`__: Muestra datos detallados.  
+<sub> Especificar nuevamente el modificador `-nn`, asi asegurar que ___tcpdump___ no realice búsquedas de direcciones IP ni de puertos, para no alertar a otros sujetos/actores. </sub>
 
+</br>
 
+> output
 
+```
+reading from file capture.pcap, link-type EN10MB (Ethernet)
+20:53:27.669101 IP (tos 0x0, ttl 64, id 50874, offset 0, flags [DF], proto TCP (6), length 60)
+    172.17.0.2:46498 > 146.75.38.132:80: Flags [S], cksum 0x5445 (incorrect), seq 4197622953, win 65320, options [mss 1420,sackOK,TS val 610940466 ecr 0, nop,wscale 7], length 0
+20:53:27.669422 IP (tos 0x0, ttl 62, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    146.75.38.132:80: > 172.17.0.2:46498: Flags [S.], cksum 0xc272 (correct), seq 2026312556, ack 4197622953, win 65535, options [mss 1420,sackOK,TS val 155704241 ecr 610940466, nop,wscale 9], length 0
 
+```
 
+- Filtrado de datos de paquete extendido del archivo de captura `capture.pcap`:  
+`sudo tcpdump -nn -r capture.pcap -X`  
+        - __`-nn`__: Deshabilitar la búsqueda de nombres de puerto y protocolo.  
+        - __`-r`__: Leer datos de captura del archivo especificado.  
+        -__`-X`__: Muestra los datos del paquete de salida en formato _hexadecimal_ y _ASCII_.  
+<sub> Los analistas de seguridad pueden analizar la salida hexadecimal y ASCII para detectar patrones o anomalías durante el análisis de malware o el análisis forense. </sub>
 
+</br>
 
-
-
-
-
-
+*👋
