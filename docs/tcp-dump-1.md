@@ -87,21 +87,17 @@ Esta sección también incluye los números de secuencia y de acuse de recibo, e
 Uso de tcpdump para guardar los datos de red capturados _(captured network data)_ en un archivo de captura de paquetes _(packet capture file)_.  
 Anteriormente, en __1.__ y __2.__ uso `tcpdump` para capturar todo el tráfico de red. Ahora filtro y uso otras opciones para guardar una pequeña muestra que contenga solo datos de paquetes de red web _(puerto TCP 80)_.  
 
-- Captura los _packet data_ en un archivo llamado `capture.pcap`:
-```
-sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &
-```  
+- Captura los _packet data_ en un archivo llamado `capture.pcap`:  
+`sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &`  
+         - __`-i eth0`__: Captura data desde la interfaz `eth0`  
+         - __`-nn`__: No intenta resolver ni direcciones IP ni puertos ni nombres. <sub>Es una buena practica desde el punto de vista de seguridad, ya que los datos de búsqueda podrían no ser válidos. Además, prevents malicious actors from being alerted to an investigation. </sub>  
+         - __`-c9`__: Captura 9 paquetes de datos y `exit`.  
+         - __`port 80`__: Filtra solo tráfico del puerto 80 _(default HTTP port)_.
+         - __`-w capture.pcap`__: Guarda los datos capturados en > capture.pcap.  
+         - __`&`__: Esta es una instrucción para que el shell de Bash ejecute todo en segundo plano.  
+<sub> Aunque el comando se ejecute en segundo plano, parte del texto tendra salida en la terminal. El texto no afecta a los siguientes comandos que introduzcas </sub> 
 
-- idk
-
-        - `-i eth0`: Capture data from the eth0 interface.  
-        - `-nn`: Do not attempt to resolve IP addresses or ports to names.This is best practice from a security perspective, as the lookup data may not be valid. It also prevents malicious actors from being alerted to an investigation.  
-        - `-c9`: Capture 9 packets of data and then exit.
-        - `port 80`: Filter only port 80 traffic. This is the default HTTP port.  
-        - `-w capture.pcap`: Save the captured data to the named file.  
-        - `&`: This is an instruction to the Bash shell to run the command in the background.  
-
-<sub>This command runs in the background, but some output text will appear in your terminal. The text will not affect the commands when you follow the steps for the rest of the lab.</sub>  
+</br>
 
 - Usar _curl_ para generar un tráfico _HTTP (port 80)_:  
 ```
