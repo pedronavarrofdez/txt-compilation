@@ -48,11 +48,80 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 byt
 4 packets received by filter
 0 packets dropped by kernel
 ```
-- Explicación detallada del output
-```
-tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
-```
-1. En los datos de ejemplo al inicio de la salida del paquete, tcpdump reporto que estaba escuchando en la interfaz `eth0` y proporcionó información sobre el tipo de enlace _(link type)_ y el tamaño de la captura en bytes:  
 
-- 
-- 
+</br>
+
+__Explicación detallada del output__   
+- En los datos de ejemplo al inicio de la salida del paquete, tcpdump reporto que estaba escuchando en la interfaz `eth0` y proporcionó información sobre el tipo de enlace _(link type)_ y el tamaño de la captura en bytes:  
+```bash
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+```  
+
+- En la segunda línea, el primer campo es la marca de tiempo _(packet's timestamp)_ del paquete, seguida del tipo de protocolo, IP:  
+```
+22:24:18.910372 IP
+```  
+
+- The verbose option, `-v`, ha proporcionado más detalles sobre los campos del paquete IP _(IP packet fields)_, como; _TOS_, _TTL_, _offset_, _flags_, tipo de protocolo interno (en este caso, _TCP (6)_), y longitud del paquete IP externo _(outer IP packet)_ en bytes:
+```
+(tos 0x0, ttl 64, id 5802, offset 0, flags [DF], proto TCP (6), length 134)
+```
+<sup>Son propiedades relacionadas con el paquete de red IP _(IP network packet)_.</sup>  
+
+- En la siguiente sección, los datos muestran los sistemas que se comunican entre sí:  
+```
+7acb26dc1f44.5000 > nginx-us-east1-c.c.qwiklabs-terminal-vms-prod-00.internal.59788:
+```  
+Por defecto, `tcpdump` convertirá las direcciones IP en nombres, como se muestra en el ejemplo.  
+La dirección de la flecha (>) indica la dirección del flujo de tráfico de este paquete. Cada nombre de sistema incluye un sufijo con el número de puerto (.5000 en el ejemplo), que utilizan los sistemas de origen y destino para este paquete _(source and destination)_.  
+
+- Los datos restantes filtran los datos de cabecera *(header)* del paquete TCP interno _(inner TCP packet)_:
+```
+Flags [P.], cksum 0x5851 (incorrect > 0x30d3), seq 1080713945:1080714027, ack 62760789, win 501, options [nop,nop,TS val 1017464119 ecr 3001513453], length 82
+```  
+El campo `flags` identifica los _TCP flag_. En este caso, la P representa el flag de envío _(push flag)_ y el punto indica que se trata de un _ACK flag_. Esto significa que el paquete está enviando datos.  
+El siguiente campo es el valor de la suma de comprobación TCP _(TCP checksum value)_, que se utiliza para detectar errores en los datos.  
+Esta sección también incluye los números de secuencia y de acuse de recibo, el tamaño de la ventana y la longitud del paquete TCP interno _(inner TCP packet)_ en bytes.  
+
+### 3. Captura del tráfico de red
+Uso de tcpdump para guardar los datos de red capturados _(captured network data)_ en un archivo de captura de paquetes _(packet capture file)_.  
+Anteriormente, en __1.__ y __2.__ uso `tcpdump` para capturar todo el tráfico de red. Ahora filtro y uso otras opciones para guardar una pequeña muestra que contenga solo datos de paquetes de red web _(puerto TCP 80)_.  
+
+- Captura los _packet data_ en un archivo llamado `capture.pcap`:
+```
+sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &
+```  
+
+- idk
+
+        - `-i eth0`: Capture data from the eth0 interface.  
+        - `-nn`: Do not attempt to resolve IP addresses or ports to names.This is best practice from a security perspective, as the lookup data may not be valid. It also prevents malicious actors from being alerted to an investigation.  
+        - `-c9`: Capture 9 packets of data and then exit.
+        - `port 80`: Filter only port 80 traffic. This is the default HTTP port.  
+        - `-w capture.pcap`: Save the captured data to the named file.  
+        - `&`: This is an instruction to the Bash shell to run the command in the background.  
+
+<sub>This command runs in the background, but some output text will appear in your terminal. The text will not affect the commands when you follow the steps for the rest of the lab.</sub>  
+
+- Usar _curl_ para generar un tráfico _HTTP (port 80)_:  
+```
+curl opensource.google.com
+```
+- Verify that packet data has been captured:  
+```
+ls -l capture.pcap
+```
+
+### 4. Filtrado de datos del paquete capturado
+
+
+
+
+
+
+
+
+
+
+
+
